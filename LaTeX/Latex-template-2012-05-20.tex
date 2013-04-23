@@ -1,0 +1,168 @@
+%Tom McCleery's LaTeX Template: Last Updated 2012-4-14
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+
+%Changing Default Numbering Style
+ %\renewcommand{\thepart}{\Alph{part}}
+ %\renewcommand{\thesection}{\Alph{section}}
+ %\renewcommand{\thesubsection}{\Alph{subsection}}
+ %\renewcommand{\thesubsubsection}{\Alph{subsubsection}}
+%Alternatives to {\Alph{}}
+ %\alph{}	%lowercase alphabet
+ %\Alph{}	%uppercase alphabet
+ %\arabic{}	%arabic numerals
+ %\roman{}	%roman numerals
+%Fancy Alteration Examples
+ %\renewcommand{\thesection}{(\Alph{section})}
+ %\renewcommand{\thesubsection}{{\thesection}-\arabic{subsection}} 	%A-1
+ %
+ %\renewcommand{\thesection}{(\Alph{section})}
+ %\renewcommand{\thesubsection}{{\thesection}-\roman{subsection}}	%A-i
+ %
+ %\renewcommand{\thesection}{\roman{section}.}				%i.
+
+
+%Defining Specific Margins
+%Automatic
+ %\usepackage{fullpage}
+%Manual
+ %\addtolength{\oddsidemargin}{-.875in}
+ %\addtolength{\evensidemargin}{-.875in}
+ %\addtolength{\textwidth}{1.75in}
+ %\addtolength{\topmargin}{-.875in}
+ %\addtolength{\textheight}{0.85in} %1.75
+
+%\title{ Title of Document } 	%e.g. Laboratory Report 1 \\ ELEC3306: Signals \& Systems 3
+%\author{Thomas McCleery \\20368975}
+%\date{August 29, 2011}
+
+\begin{document}
+%\pagestyle{fancy}
+%\lhead{\footnotesize \parbox{11cm}{ELEC3306: Laboratory Report 1 - Thomas McCleery - 20368975} }
+%\renewcommand\headheight{24pt}
+%\maketitle
+%\tableofcontents
+
+%\begin{abstract}
+ %Text to go in Abstract
+%\end{abstract}
+
+
+%%%% Document Structure %%%%
+
+%Creating Document Structure
+ %\section[ optional: for contents page only ]{ for internal of document }
+ %\section{ for contents page and internal of document }
+ %\subsection{numbered and displayed on contents page}
+ %\subsubsection*{not numbered or displayed on contents page}
+
+
+%%%% Formatting %%%%
+
+%Useful Formatting Commands
+ %\noindent
+
+%Creating Bold Text
+ %\textbf{ text goes here }
+
+
+%%%% Mathematics %%%% 
+
+%Mathematical Notations:
+ %\dot{x}
+ %
+ %\mathcal{C} %%Makes controllability matrix C
+
+%Creating Equations Over Multiple Lines
+%
+%Method 1:
+ %\[
+ %\begin{array}{lcl} 
+  %	a &=& b\\
+  %	c &=& d\\
+ %\end{array}
+ %\]
+%
+%Method 2:
+ %\begin{eqnarray*}
+ %	\dot{x}	&=& ax+bu\\
+ % 	y	&=& cx
+ %\end{eqnarray*}
+%
+%Method 3: (This Method Might Number The Equation)
+ %\begin{align}
+ %    E &= mc^2                              \\
+ %    m &= \frac{m_0}{\sqrt{1-\frac{v^2}{c^2}}}
+ %\end{align}
+%
+%Method 4: Multiple line with matrices in each line
+%\[\begin{array}{lcc}
+%  \bar{A} &=& \left[
+%  \begin{array}{cc} \bar{A}_{c} & \bar{A}_{c\bar{c}}\\ 0 & \bar{A}_{\bar{c}}\\ \end{array} \right]\\
+%  \bar{b} &=& \left[
+%  \begin{array}{c} \bar{b}_{c} \\ 0\\ \end{array} \right]\\
+%  \bar{c} &=& \left[
+%  \begin{array}{cc} \bar{c}_{c} & \bar{c}_{\bar{c}}\\ \end{array} \right]\\
+%\end{array}\]
+
+
+%%%% Tables %%%%
+
+%Creating Pretty Tables
+ %\begin{table}[h!]  %h describes location of float, !overrides normal float positioning
+ %  \centering
+ %  \begin{tabular}{| l || c | r |}
+ %    \hline
+ %    a	& b	& c\\
+ %    \hline
+ %    d	& e	& f\\
+ %    g	& h	& i\\
+ %    \hline
+ %  \end{tabular}
+ %  \caption{Description of Table}
+ %  \label{tab:label-for-referencing-to-table} %\label MUST be on line below caption for referencing to work correctly
+ %\end{table}
+
+
+%%%% Pictures %%%%
+ 
+ %Inserting Multiple Pictures With A Single Caption
+ %\begin{figure}[h]
+ %  \centering
+ %  \subfloat[Sub Caption]  {\includegraphics[width=0.6\textwidth]{ Image Location.png}}\\	%e.g. Image Location = ./Images/picture.png
+ %  \subfloat[Sub Caption]  {\includegraphics[width=0.6\textwidth]{ Image Location.png}}
+ %  \caption{Total Caption for pictures}
+ %  \label{fig:figure-name-for-referencing}
+ %\end{figure}
+ 
+
+%%%% Internal Referencing %%%%
+
+%Assigning A Label
+ %\label{fig:}
+ %\label{tab:}
+
+%Citing A Label
+ %
+
+%Referencing Tables and Figures
+%Gives The Number Assigned To The Given Label
+ %~\ref{label-name}
+%Gives the Page Number Where The Label Is Located
+ %~\pageref{label-name}
+
+%A Nice Way To Display Computer Code In It's Native Format
+ %\lstset{ breaklines=true,morecomment=[l]{\%},basicstyle=\footnotesize, numbers=right}
+ %\begin{lstlisting}
+  %code to be referenced in native format.
+ %\end{lstlisting}
+
+\LaTeX \ Template Created By Tom McCleery
+\end{document}

@@ -1,4 +1,6 @@
 freezing-wolf
 =============
 
-Personal programming
+-Personal programming
+-Project Euler work
+-LaTeX template
