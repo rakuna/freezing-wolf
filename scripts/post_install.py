@@ -1,23 +1,24 @@
-import subprocess
+import subprocess  # for running software outside of python
+import requests  # high-level url interface
+import urllib.request  # for accessing files from URLs
 
 def update():
+    """Update and upgrade apt."""
     print('******update******')
     subprocess.run(['sudo', 'apt', 'update'])
-    print('******')
+    print('******upgrade******')
     # print(subprocess.CompletedProcess)
     subprocess.run(['sudo', 'apt', 'upgrade'])
 
+
 def setup_swap():
+    """Setup a swap file and ensure it is loaded with each restart."""
     print('******swap******')
     # Variables
     swap_size = '8G'
     swap_file = '/var/swap'
     permissions = '600'    # owner can read/write
     fstab_file = '/etc/fstab'
-
-
-
-    # TODO check if the file exists
 
     # commands
     print('fallocate')
@@ -53,43 +54,106 @@ def setup_swap():
         return
 
 
-def install_apt_applications():
+def remove_apt():
+    """Remove bloat applications."""
+    print('******apt remove******')
+    applications = ['ubuntu-web-launchers',  # Bloat amazon app.
+                    'aisleriot',  # game
+                    'gnome-mahjongg',  # game
+                    'gnome-sudoku',  # game
+                    'gnome-todo'  # default todo app
+                    'remmina',  # remote desktop application.
+                    'simple-scan',  # scanning app.
+                    'rhythmbox',  # default music player.
+                    'thunderbird',  # default email client.
+                    'usb-creator-gtk',  # default usb creator.
+                   ]
+    for app in applications:
+        print('******'+app+'******')
+        subprocess.run(['sudo', 'apt', 'remove', app])
+    print('******autoremove******')
+    subprocess.run(['sudo', 'apt', 'autoremove'])
+    
+
+
+def install_apt():
     """Install applications that are available in default apt."""
-    print('******install******')
-    applications = ['git',  # App for version control.
-                    'geary',  # App for non-gmail email
-                    'evolution',  # App for gmail email.
-                    'quodlibet',  # App for music.
-                    'gnome-tweaks',  # App for finer grained desktop style.
+    print('******apt install******')
+    applications = ['git',  # Version control.
+                    'geary',  # non-gmail email
+                    'evolution',  # gmail email.
+                    'quodlibet',  # Music player.
+                    'gnome-tweaks',  # Finer grained destkop style editing.
                     'chrome-gnome-shell',  # App linking firefox with tweaks.
-                    'syncthing',  # App for managing back-ups and syncing.
+                    'syncthing',  # Point-to-point back-up manager.
+                    'gnome-shell-timer',  # App for focussing productivity.
+                    'transmission-gtk',  # Torrent downloader.
+                    'texmaker',  # LaTeX editor (for editing resume).
+                    'asunder',  # Music CD ripping.
+                    'baobab',  # Disk usage analysis.
+                    'nautilus-dropbox',  # Cloud storage client
+
+                    'gnome-mines',  # Minesweeper game.
+                    'gnome-calendar',  # calendar app.
                    ]
     for app in applications:
         print('******'+app+'******')
         subprocess.run(['sudo', 'apt', 'install', app])
 
 
-def install_non_apt_applications():
+def install_app_images():
     """Install all applications that are not available in apt by default."""
 
+    # download_directory = '/home/tom/'
+    file_extension = '.AppImage'
+
     # balenaEtcher (https://github.com/balena-io/etcher)
-    print('******baleneEtcher******')
-    # Add Etcher debian repository:
-    balena_etcher_source_file = '/etc/apt/sources.list.d/balena-etcher.list'        
-    with open(balena_etcher_source_file, 'w') as balena_etcher_source:
-        balena_etcher_source.write("deb https://deb.etcher.io stable etcher")
+    print('******etcher******')
+    # TODO compare versions before downloading.
+    # Download the latest AppImage from github
+    etcher_appname = 'etcher'
+    etcher_url = 'https://github.com/balena-io/etcher/'
+    releases_url = 'releases/latest/download/'
+    reference_url = 'latest-linux.yml'
+    request_url = etcher_url + releases_url + reference_url
+    # download yml content and convert to a string
+    yml = requests.get(request_url).content.decode()  
+    for line in yml.split('\n'):
+        if line[4:8] == 'url:':
+            appimage_url = line[9:]
+    request_url = etcher_url + releases_url + appimage_url
+    output_file = etcher_appname + file_extension
+    subprocess.run(['wget', '-q', '--show-progress',
+                    request_url,
+                    '-O', output_file])
+    #subprocess.run(['sudo', 'chmod', '+x', output_file])
 
-    # Trust Bintray.com's GPG key:    
-    subprocess.run(['sudo', 'apt-key', 'adv',
-                    '--keyserver', 'keyserver.ubuntu.com',
-                    '--recv-keys', '379CE192D401AB61'])
 
-    # Update and install
-    subprocess.run(['sudo', 'apt', 'update'])
-    subprocess.run(['sudo', 'apt', 'install', 'balena-etcher-electron'])
+#def install_flatpak():
+    # TODO
+    # https://flatpak.org/setup/Ubuntu/
+
+
+def install_snap():
+    """Install all applications that are best installed as a snap."""
+    print('******snap******')
+    applications_classic = ['skype',  # App for mentor calls.
+                           ]
+    applications = ['gitkraken',  # App for pretty git commands.
+                   ]
+    for app in applications_classic:
+        print('******'+app+'******')
+        subprocess.run(['sudo', 'snap', 'install', app, '--classic'])
+    for app in applications:
+        print('******'+app+'******')
+        subprocess.run(['sudo', 'snap', 'install', app])
+
+
 
 update()
-setup_swap()
-install_apt_applications()
-install_non_apt_applications()
-
+#setup_swap()  # Not needed as using a lvm swap partition now
+install_apt()
+remove_apt()
+install_app_images()
+#install_flatpak()  # not yet implemented
+install_snap()
