@@ -3,6 +3,16 @@ from subprocess import run
 import requests  # high-level url interface
 import urllib.request  # for accessing files from URLs
 
+
+def setup_repositories():
+    """Setup repositories for apps not in the default repos"""
+    # TODO figure out how to use pipes to run.
+    # wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+    # sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+    # sudo apt-get update  # run refresh after repo setup instead.
+    print('setup_repositories not yet setup for automatic install')
+
+
 def update():
     """Update then upgrade apt."""
     commands = ['update', 'upgrade']
@@ -72,7 +82,6 @@ def remove_apt():
         print('******'+app+'******')
         run(['sudo', 'apt', 'remove', app])
     print('******autoremove******')
-    
     run(['sudo', 'apt', 'autoremove'])
 
 
@@ -92,9 +101,11 @@ def install_apt():
                     'asunder',  # Music CD ripping.
                     'baobab',  # Disk usage analysis.
                     'nautilus-dropbox',  # Cloud storage client
+                    'python3-pip',  # Python package manager
 
                     'gnome-mines',  # Minesweeper game.
                     'gnome-calendar',  # calendar app.
+                    # 'atom',  # requires custom atom repo
                    ]
     for app in applications:
         print('******'+app+'******')
@@ -129,8 +140,9 @@ def install_app_images():
     #run(['sudo', 'chmod', '+x', output_file])
 
 
-#def install_flatpak():
+def install_flatpak():
     # TODO
+    print('flatpak auto-install not yet implemented.')
     # https://flatpak.org/setup/Ubuntu/
 
 
