@@ -1,14 +1,14 @@
-import subprocess  # for running software outside of python
+#import subprocess  # for running software outside of python
+from subprocess import run
 import requests  # high-level url interface
 import urllib.request  # for accessing files from URLs
 
 def update():
-    """Update and upgrade apt."""
-    print('******update******')
-    subprocess.run(['sudo', 'apt', 'update'])
-    print('******upgrade******')
-    # print(subprocess.CompletedProcess)
-    subprocess.run(['sudo', 'apt', 'upgrade'])
+    """Update then upgrade apt."""
+    commands = ['update', 'upgrade']
+    for command in commands:
+        print('******'+command+'******')
+        run(['sudo', 'apt', command])
 
 
 def setup_swap():
@@ -25,19 +25,19 @@ def setup_swap():
     # if swap_file does not exist then run the following
     try:
         # make the file
-        subprocess.run(['sudo', 'fallocate', '-l', swap_size, swap_file])
+        run(['sudo', 'fallocate', '-l', swap_size, swap_file])
 
         # make the file a swap file
         print('mkswap')
-        subprocess.run(['sudo', 'mkswap', swap_file])
+        run(['sudo', 'mkswap', swap_file])
 
         # assign the swap file restricted permissions
         print('chmod')
-        subprocess.run(['sudo', 'chmod', permissions, swap_file])
+        run(['sudo', 'chmod', permissions, swap_file])
 
         # turn the swap file on
         print('swapon')
-        subprocess.run(['sudo', 'swapon', swap_file])
+        run(['sudo', 'swapon', swap_file])
 
         # update fstab to turn swap on after every reboot
         print('fstab')
@@ -46,7 +46,7 @@ def setup_swap():
 
         # show current swap status (for removing other swap files)
         print('swap status')
-        subprocess.run(['sudo', 'swapon', '--summary'])
+        run(['sudo', 'swapon', '--summary'])
 
     except:
         # else exit this function.
@@ -70,10 +70,10 @@ def remove_apt():
                    ]
     for app in applications:
         print('******'+app+'******')
-        subprocess.run(['sudo', 'apt', 'remove', app])
+        run(['sudo', 'apt', 'remove', app])
     print('******autoremove******')
-    subprocess.run(['sudo', 'apt', 'autoremove'])
     
+    run(['sudo', 'apt', 'autoremove'])
 
 
 def install_apt():
@@ -98,7 +98,7 @@ def install_apt():
                    ]
     for app in applications:
         print('******'+app+'******')
-        subprocess.run(['sudo', 'apt', 'install', app])
+        run(['sudo', 'apt', 'install', app])
 
 
 def install_app_images():
@@ -123,10 +123,10 @@ def install_app_images():
             appimage_url = line[9:]
     request_url = etcher_url + releases_url + appimage_url
     output_file = etcher_appname + file_extension
-    subprocess.run(['wget', '-q', '--show-progress',
+    run(['wget', '-q', '--show-progress',
                     request_url,
                     '-O', output_file])
-    #subprocess.run(['sudo', 'chmod', '+x', output_file])
+    #run(['sudo', 'chmod', '+x', output_file])
 
 
 #def install_flatpak():
@@ -143,17 +143,18 @@ def install_snap():
                    ]
     for app in applications_classic:
         print('******'+app+'******')
-        subprocess.run(['sudo', 'snap', 'install', app, '--classic'])
+        run(['sudo', 'snap', 'install', app, '--classic'])
     for app in applications:
         print('******'+app+'******')
-        subprocess.run(['sudo', 'snap', 'install', app])
+        run(['sudo', 'snap', 'install', app])
 
 
-
-update()
-#setup_swap()  # Not needed as using a lvm swap partition now
-install_apt()
-remove_apt()
-install_app_images()
-#install_flatpak()  # not yet implemented
-install_snap()
+if __name__ == '__main__':
+    setup_repositories()
+    update()
+    # setup_swap()  # Not needed as using a lvm swap partition now
+    install_apt()
+    remove_apt()
+    install_app_images()
+    # install_flatpak()  # not yet implemented
+    install_snap()
