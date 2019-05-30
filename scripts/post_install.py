@@ -95,13 +95,14 @@ def install_apt():
                     'gnome-tweaks',  # Finer grained destkop style editing.
                     'chrome-gnome-shell',  # App linking firefox with tweaks.
                     'syncthing',  # Point-to-point back-up manager.
-                    'gnome-shell-timer',  # App for focussing productivity.
+                    # 'gnome-shell-timer',  # App for focussing productivity.
                     'transmission-gtk',  # Torrent downloader.
                     'texmaker',  # LaTeX editor (for editing resume).
                     'asunder',  # Music CD ripping.
                     'baobab',  # Disk usage analysis.
                     'nautilus-dropbox',  # Cloud storage client
                     'python3-pip',  # Python package manager
+                    'pwgen',  # Generate secure passwords
 
                     'gnome-mines',  # Minesweeper game.
                     'gnome-calendar',  # calendar app.
